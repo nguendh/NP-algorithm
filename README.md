@@ -22,7 +22,7 @@ The Hamiltonian cycle problem is the problem of determining whether a Hamiltonia
 ### 1.There is a way to solve the Hamiltonian cycle problem via a brute force search algorithm that tests all possible sequence.
 
 The algorithms is shown:
-
+```
 Begin
    if all nodes are included, then
       if there is an edge between nodes k and 0, then
@@ -39,6 +39,7 @@ Begin
    done
    return false
 End
+```
 
 ### 2.Also, there is a way to solve via a dynamic programming algorithm that the algorithm is called Bellman–Held–Karp algorithm.
 
