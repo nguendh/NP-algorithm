@@ -66,4 +66,4 @@ end function
 
 # Complexities
 
-The complexity of solving via a brute force search algorithm is n!, Bellman–Held–Karp algorithm's complexity is O(n2 2n), and the complexity of solving via using the inclusion–exclusion principle is O(1.657n).
+The complexity of solving via a brute force search algorithm is n!, Bellman–Held–Karp algorithm's complexity is O(n<sup>2</sup> 2<sup>n</sup>), and the complexity of solving via using the inclusion–exclusion principle is O(1.657n).
