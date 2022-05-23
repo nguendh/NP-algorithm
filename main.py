@@ -2,6 +2,7 @@ import itertools
 import numpy as np
 import time
 
+
 def count_set_bits(n):
     count = 0
     while n:
@@ -46,22 +47,23 @@ class BellmanHeldKarp:
         self.graph = graph
 
     def find_hamilton_cycle(self):
-        path = [[0 for j in range(self.graph.node_number)] for i in range(pow(2, self.graph.node_number) + 1)]
-        for i in range(0, self.graph.node_number - 1):
-            path[(1 << i)][i] = (self.graph.matrix[0][i + 1] or self.graph.matrix[i + 1][0])
-        for S in range(2, self.graph.node_number):
-            for s in range(1, pow(2, self.graph.node_number - 1)):
+        matrix = self.graph
+        path = [[0 for j in range(int(matrix.node_number))] for i in range(pow(2, int(matrix.node_number)) + 1)]
+        for i in range(0, int(matrix.node_number - 1)):
+            path[(1 << i)][i] = (matrix.matrix[0][i + 1] or matrix.matrix[i + 1][0])
+        for S in range(2, int(matrix.node_number)):
+            for s in range(1, pow(2, int(matrix.node_number - 1))):
                 if count_set_bits(s) == S:
-                    for i in range(0, self.graph.node_number - 1):
+                    for i in range(0, int(matrix.node_number - 1)):
                         if (s >> i) & 1:
-                            for j in range(0, self.graph.node_number - 1):
+                            for j in range(0, int(matrix.node_number - 1)):
                                 if ((s >> j) & 1) and (i != j):
                                     path[s][i] |= (path[(1 << i) ^ s][j] and (
-                                            self.graph.matrix[j + 1][i + 1] or self.graph.matrix[i + 1][j + 1]))
+                                            matrix.matrix[j + 1][i + 1] or matrix.matrix[i + 1][j + 1]))
         result = False
-        for i in range(1, self.graph.node_number - 1):
-            result |= (path[pow(2, self.graph.node_number - 1) - 1][i - 1] and (
-                    self.graph.matrix[i][0] or self.graph.matrix[0][i]))
+        for i in range(1, matrix.node_number - 1):
+            result |= (path[pow(2, int(matrix.node_number - 1)) - 1][i - 1] and (
+                    matrix.matrix[i][0] or matrix.matrix[0][i]))
         print(bool(result))
 
 
@@ -85,7 +87,8 @@ class InclExcl:
         iter = int(matrix.node_number / 2) - 1
         for i in range(0, int(matrix.node_number / 2)):
             for j in range(0, int(matrix.node_number / 2)):
-                matrix_new[i][j] = np.linalg.det(matrix_old[iter * i:iter * i + 2, iter * j:iter * j + 2])
+                if i == j:
+                    matrix_new[i][j] = np.linalg.det(matrix_old[iter * i:iter * i + 2, iter * j:iter * j + 2])
         if np.linalg.det(matrix_new) == 0:
             hamilton_cycle = False
         print(hamilton_cycle)
