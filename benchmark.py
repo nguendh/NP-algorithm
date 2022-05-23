@@ -7,8 +7,7 @@ from main import BellmanHeldKarp
 from main import InclExcl
 from main import Graph
 
-number_of_test = 5
-total_value = 5
+number_of_test = 7
 brute_force_time = list()
 bellman_time = list()
 inc_time = list()
@@ -17,53 +16,52 @@ inc_time = list()
 class TimeCalculating:
     @staticmethod
     def time_calculating():
-        given_list = [[[random.randint(0, 1) for i in range(1000 * (k + 1))] for j in range(total_value)]
+        given_list = [[[random.randint(0, 1) for i in range(2 + k)] for j in range(2 + k)]
                       for k in range(number_of_test)]
-        graph = Graph(total_value)
-        for i in range(number_of_test):
+        for k in range(number_of_test):
             first_average_time = 0
-            for j in range(total_value):
-                graph.set_matrix(given_list[i])
-                start = time()
-                brute_force = BruteForceSolution(graph)
-                brute_force.find_hamilton_cycle()
-                interval = time() - start
-                first_average_time += interval
+            graph = Graph(len(given_list[k]))
+            graph.set_matrix(given_list[k])
+            start = time()
+            brute_force = BruteForceSolution(graph)
+            brute_force.find_hamilton_cycle()
+            interval = time() - start
+            first_average_time += interval
 
-            print(f"Time for brute force solution for {len(given_list)} numbers",
-                  first_average_time / len(given_list[i]))
+            print(f"Time for brute force solution for {len(given_list[k])} numbers",
+                  first_average_time / len(given_list[k]))
 
-            brute_force_time.append(first_average_time / len(given_list[i]))
+            brute_force_time.append(first_average_time / len(given_list[k]))
 
-        for i in range(number_of_test):
+        for k in range(number_of_test):
             second_average_time = 0
-            for j in range(total_value):
-                graph.set_matrix(given_list[i])
-                start = time()
-                top_down = BellmanHeldKarp(given_list[i])
-                top_down.find_hamilton_cycle()
-                interval = time() - start
-                second_average_time += interval
+            graph = Graph(len(given_list[k]))
+            graph.set_matrix(given_list[k])
+            start = time()
+            bellman = BellmanHeldKarp(graph)
+            bellman.find_hamilton_cycle()
+            interval = time() - start
+            second_average_time += interval
 
-            print(f"Time for Bellman Held Karp solution for {len(given_list[i])} numbers",
-                  second_average_time / len(given_list[i]))
+            print(f"Time for Bellman Held Karp solution for {len(given_list[k])} numbers",
+                  second_average_time / len(given_list[k]))
 
-            bellman_time.append(second_average_time / len(given_list[i]))
+            bellman_time.append(second_average_time / len(given_list[k]))
 
-        for i in range(number_of_test):
+        for k in range(number_of_test):
             third_average_time = 0
-            for j in range(total_value):
-                graph.set_matrix(given_list[i])
-                start = time()
-                bottom_up = InclExcl(given_list[i])
-                bottom_up.find_hamilton_cycle()
-                interval = time() - start
-                third_average_time += interval
+            graph = Graph(len(given_list[k]))
+            graph.set_matrix(given_list[k])
+            start = time()
+            inc = InclExcl(graph)
+            inc.find_hamilton_cycle()
+            interval = time() - start
+            third_average_time += interval
 
-            print(f"Time for Inclusion Exclusion solution for {len(given_list[i])} numbers",
-                  third_average_time / len(given_list[i]))
+            print(f"Time for Inclusion Exclusion solution for {len(given_list[k])} numbers",
+                  third_average_time / len(given_list[k]))
 
-            inc_time.append(third_average_time / len(given_list[i]))
+            inc_time.append(third_average_time / len(given_list[k]))
 
 
 sys.setrecursionlimit(10 ** 8)
